@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+## Описание проекта
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+В этом проекте реализовано тестовое задание для Junior React Developer, которое включает работу с данными семинаров через `json-server`. Приложение позволяет запросить данные с сервера, отобразить список семинаров, а также редактировать и удалять семинары.
 
-Currently, two official plugins are available:
+Проект выполнен с использованием **React**, **TypeScript**, **Vite**, и **json-server** для создания фейкового API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Реализованные функции
 
-## Expanding the ESLint configuration
+1. **Запрос данных:**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+   - При загрузке страницы данные о семинарах запрашиваются с локального сервера `json-server`.
 
-- Configure the top-level `parserOptions` property like this:
+2. **Отрисовка списка семинаров:**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   - Список семинаров отображается на странице с использованием компонента, который динамически обновляется при изменении данных.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+3. **Удаление семинара:**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   - Реализована кнопка для удаления семинара. При клике на кнопку появляется окно подтверждения, после чего семинар удаляется с сервера с помощью `DELETE` запроса.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+4. **Редактирование семинара:**
+
+   - Каждому семинару присвоены кнопки редактирования, которые открывают модальное окно для изменения данных семинара. После изменения данные сохраняются на сервере.
+
+## Технологии
+
+- React
+- TypeScript
+- Vite
+- json-server
+
+## Установка и запуск
+
+Чтобы запустить проект локально, выполните следующие шаги:
+
+## Как запустить проект локально
+
+1. Клонируйте репозиторий:
+
+git clone https://github.com/Stameskaaa/test-seminars.git
+cd test-seminars
+
+2. Запустите сервер данных:
+
+npm run json-server
+
+3. Запустите приложение
+
+npm run dev
