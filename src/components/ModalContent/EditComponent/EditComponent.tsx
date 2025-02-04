@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ISeminar } from '../../../types/types';
 import styles from './EditComponent.module.css';
+import { Loader } from '../../Loader/Loader';
 
 interface Props {
   modalData: ISeminar;
@@ -29,7 +30,10 @@ export const EditComponent: React.FC<Props> = ({ modalData, changeSeminar, isLoa
 
       <div className={styles.buttons_container}>
         {' '}
-        <button onClick={handleChangeSeminar}>Изменить</button>
+        <button disabled={isLoading} onClick={handleChangeSeminar}>
+          {' '}
+          {isLoading ? <Loader /> : 'Изменить'}
+        </button>
         <button>Отменить</button>
       </div>
     </div>
