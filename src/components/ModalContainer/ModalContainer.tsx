@@ -25,7 +25,10 @@ export const ModalContainer: React.FC<Props> = ({ children, showModal, setShowMo
   }
 
   function handleModalClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (e.target === e.currentTarget || e.target instanceof HTMLButtonElement) {
+    if (
+      e.target === e.currentTarget ||
+      (e.target instanceof HTMLButtonElement && e.target.id === 'modal-xmark')
+    ) {
       setShowModal(false);
     }
   }
@@ -33,7 +36,9 @@ export const ModalContainer: React.FC<Props> = ({ children, showModal, setShowMo
   return (
     <div role="dialog" onClick={handleModalClick} className={`${styles.wrapper} ${styles.close}`}>
       <div className={styles.content_container}>
-        <button className={styles.xmark_button}>X</button>
+        <button id="modal-xmark" className={styles.xmark_button}>
+          X
+        </button>
         {children}
       </div>
     </div>

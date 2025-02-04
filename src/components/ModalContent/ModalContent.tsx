@@ -6,15 +6,17 @@ import styles from './ModalContent.module.css';
 interface Props {
   modalData: ModalState;
   deleteSeminar: (id: number) => void;
-  changeSeminar: (id: number, title: string, description: string) => void;
+  changeSeminarData: (id: number, title: string, description: string) => void;
   modalButtonsLoading: ModalButtonsLoading;
+  closeModal: () => void;
 }
 
 export const ModalContent: React.FC<Props> = ({
   modalData,
   deleteSeminar,
-  changeSeminar,
+  changeSeminarData,
   modalButtonsLoading,
+  closeModal,
 }) => {
   let content;
 
@@ -31,8 +33,9 @@ export const ModalContent: React.FC<Props> = ({
     case 'edit':
       content = (
         <EditComponent
+          closeModal={closeModal}
           isLoading={modalButtonsLoading.edit}
-          changeSeminar={changeSeminar}
+          changeSeminarData={changeSeminarData}
           modalData={modalData.data}
         />
       );

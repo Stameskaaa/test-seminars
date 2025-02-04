@@ -1,26 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ISeminar } from '../../../types/types';
 import styles from './EditComponent.module.css';
 import { Loader } from '../../Loader/Loader';
 
 interface Props {
   modalData: ISeminar;
-  changeSeminar: (id: number, title: string, description: string) => void;
+  changeSeminarData: (id: number, title: string, description: string) => void;
   isLoading: boolean;
+  closeModal: () => void;
 }
 
-export const EditComponent: React.FC<Props> = ({ modalData, changeSeminar, isLoading }) => {
+export const EditComponent: React.FC<Props> = ({
+  modalData,
+  changeSeminarData,
+  isLoading,
+  closeModal,
+}) => {
   const [values, setValues] = useState<{ title: string; description: string }>({
     title: modalData.title,
     description: modalData.description,
   });
+  const startValuesRef = useRef<{ title: string; description: string }>();
+
+  useEffect(() => {
+    startValuesRef.current = { title: modalData.title, description: modalData.description };
+  }, [modalData]); // Запоминаем начальное значение и не вызываем перерисовок
 
   function inputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleChangeSeminar() {
-    changeSeminar(modalData.id, values.title, values.description);
+  async function handleChangeSeminarData() {
+    await changeSeminarData(modalData.id, values.title, values.description);
+    closeModal();
+  }
+
+  function handleCancelChanges() {
+    if (startValuesRef.current) setValues(startValuesRef.current);
   }
 
   return (
@@ -30,11 +46,11 @@ export const EditComponent: React.FC<Props> = ({ modalData, changeSeminar, isLoa
 
       <div className={styles.buttons_container}>
         {' '}
-        <button disabled={isLoading} onClick={handleChangeSeminar}>
+        <button disabled={isLoading} onClick={handleChangeSeminarData}>
           {' '}
           {isLoading ? <Loader /> : 'Изменить'}
         </button>
-        <button>Отменить</button>
+        <button onClick={handleCancelChanges}>Отменить изменения</button>
       </div>
     </div>
   );

@@ -45,26 +45,36 @@ function App() {
     } catch (error) {
       console.error(error);
     } finally {
+      closeModal();
       setModalButtonsLoading((prev) => ({ ...prev, delete: false }));
     }
   }
 
-  async function changeSeminar(id: number, title: string, description: string) {
-    const response = await fetch(`${url}/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        title,
-        description,
-      }),
-    });
+  async function changeSeminarData(id: number, title: string, description: string) {
+    try {
+      setModalButtonsLoading((prev) => ({ ...prev, edit: true }));
+      await fetch(`${url}/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          title,
+          description,
+        }),
+      });
+    } catch (error) {
+    } finally {
+      setModalButtonsLoading((prev) => ({ ...prev, edit: false }));
+    }
 
     getSeminars();
-    console.log(response);
   }
 
   function showModalByType(type: ModalType, data: ISeminar) {
     setShowModal(true);
     setModalData({ type, data });
+  }
+
+  function closeModal() {
+    setShowModal(false);
   }
 
   if (loading) {
@@ -80,8 +90,9 @@ function App() {
       </SeminarList>
       <ModalContainer showModal={showModal} setShowModal={setShowModal}>
         <ModalContent
+          closeModal={closeModal}
           modalButtonsLoading={modalButtonsLoading}
-          changeSeminar={changeSeminar}
+          changeSeminarData={changeSeminarData}
           deleteSeminar={deleteSeminar}
           modalData={modalData}
         />
